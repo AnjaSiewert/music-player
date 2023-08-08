@@ -88,10 +88,10 @@ function updateProgressBar(event){
         
         const durationMinutes = Math.floor(duration / 60);
         let durationSeconds = Math.floor(duration % 60);
+        
         if(durationSeconds < 10) {
             durationSeconds = `0${durationSeconds}`;
         }
-        // console.log(durationMinutes, durationSeconds);
         
         if(durationSeconds) {
             durationElement.textContent = `${durationMinutes}:${durationSeconds}`;
@@ -106,6 +106,15 @@ function updateProgressBar(event){
     };
 };
 
+function setProgressBar(event){
+    const width = this.clientWidth;
+    const clickX = event.offsetX;
+    const { duration } = audioElement;
+    audioElement.currentTime = (clickX/width) * duration;
+};
+
 previousButton.addEventListener('click', prevSong);
 nextButton.addEventListener('click', nextSong);
+audioElement.addEventListener('ended', nextSong);
 audioElement.addEventListener('timeupdate', updateProgressBar);
+progressContainer.addEventListener('click', setProgressBar);
